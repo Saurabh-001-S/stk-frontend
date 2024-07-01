@@ -8,6 +8,7 @@ import {
   BottomWarning,
 } from "../Component";
 import axios from "axios";
+const URL = "https://stock-bck.onrender.com/api/v1";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -18,13 +19,10 @@ const Login = () => {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        `http://localhost:3000/api/v1/userRoute/signin`,
-        {
-          username: username,
-          password: password,
-        }
-      );
+      const res = await axios.post(`${URL}/userRoute/signin/`, {
+        username: username,
+        password: password,
+      });
       if (res.status == 200) {
         localStorage.setItem("token", `Bearer ${res.data.token}`);
         navigate("/");

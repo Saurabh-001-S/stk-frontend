@@ -20,18 +20,6 @@ const Input = ({ label, onChange, placeholder, type }) => {
           className="w-full px-2 py-1 border rounded border-slate-200"
           required
         />
-        {/* {type === "password" && (
-          <div className="absolute right-4 top-2 z-50">
-            {showPassword === "password" ? (
-              <EyeOff
-                color="#4b586c"
-                onClick={() => setShowPassword("password")}
-              />
-            ) : (
-              <Eye color="#4b586c" onClick={() => setShowPassword("text")} />
-            )}
-          </div>
-        )} */}
       </div>
     </>
   );

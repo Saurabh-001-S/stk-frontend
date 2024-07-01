@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CanvasJSReact from "@canvasjs/react-charts";
+const URL = "https://stock-bck.onrender.com/api/v1";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -15,14 +16,11 @@ const Graph = () => {
     }
 
     try {
-      const res = await axios.get(
-        "http://localhost:3000/api/v1/stockRoute/get-allentry",
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      const res = await axios.get(`${URL}/stockRoute/get-allentry`, {
+        headers: {
+          Authorization: token,
+        },
+      });
 
       if (res.status === 200) {
         const tradeEntries = res.data.data.map((data) => ({

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { memo, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+const URL = "https://stock-bck.onrender.com/api/v1";
 
 type Timeframe = {
   "1 min": "MIN1";
@@ -60,18 +61,6 @@ const Entryform: React.FC<FormProps> = memo(({ setModal, Formtype }) => {
     region: "",
   });
 
-  // const handleChange = (
-  //   e: React.ChangeEvent<
-  //     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-  //   >
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setFormInput((prevState) => ({
-  //     ...prevState,
-  //     [name]: Number(value),
-  //   }));
-  // };
-
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -99,14 +88,11 @@ const Entryform: React.FC<FormProps> = memo(({ setModal, Formtype }) => {
       return;
     }
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/v1/stockRoute/find-stockEntry/${id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      const res = await axios.get(`${URL}/stockRoute/find-stockEntry/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
 
       if (res.status == 200) {
         const entry = res.data.data;
@@ -136,58 +122,6 @@ const Entryform: React.FC<FormProps> = memo(({ setModal, Formtype }) => {
     }
   }, [id]);
 
-  // const handleForm = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   const token = localStorage.getItem("token");
-
-  //   if (!token) {
-  //     console.error("No token found in localStorage.");
-  //     return;
-  //   }
-
-  //   if (id != null) {
-  //     const tradeId: number = Number(id);
-  //     setModal(false);
-  //     try {
-  //       const updatedFields: any = {};
-
-  //       // Track updated fields
-  //       Object.keys(formInput).forEach((key) => {
-  //         if (formInput[key] !== initialFormInput[key]) {
-  //           updatedFields[key] = formInput[key];
-  //         }
-  //       });
-
-  //       if (imageFile) {
-  //         updatedFields.image = `${imageFile}`;
-  //       }
-
-  //       // Special handling for specific fields
-  //       if (updatedFields.entryTimeFrame) {
-  //         updatedFields.entryTimeFrame = timeframes[formInput.entryTimeFrame];
-  //       }
-
-  //       const res = await axios.put(
-  //         "http://localhost:3000/api/v1/stockRoute/update-stockEntry",
-  //         {
-  //           id: tradeId,
-  //           ...updatedFields,
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: `${token}`,
-  //           },
-  //         }
-  //       );
-
-  //       if (res.status == 200) {
-  //         console.log(res.data.msg);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error updating entry", error);
-  //       throw error; // Re-throw the error to be handled by the caller
-  //     }
-  //   }
   const handleForm = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -225,7 +159,7 @@ const Entryform: React.FC<FormProps> = memo(({ setModal, Formtype }) => {
         }
 
         const res = await axios.put(
-          "http://localhost:3000/api/v1/stockRoute/update-stockEntry",
+          `${URL}/stockRoute/update-stockEntry`,
           {
             id: tradeId,
             ...updatedFields,
@@ -247,7 +181,7 @@ const Entryform: React.FC<FormProps> = memo(({ setModal, Formtype }) => {
     } else {
       try {
         const res = await axios.post(
-          "http://localhost:3000/api/v1/stockRoute/add-stockEntry",
+          `${URL}/stockRoute/add-stockEntry`,
           {
             contract: formInput.contract,
             entryTimeFrame: timeframes[formInput.entryTimeFrame],

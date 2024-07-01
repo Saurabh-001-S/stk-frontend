@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+const URL = "https://stock-bck.onrender.com/api/v1";
 
 const Sidebar = () => {
   const cardH3: string = "font-sans text-gray-200 text-base";
@@ -9,14 +10,11 @@ const Sidebar = () => {
   const getStatistics = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get(
-        "http://localhost:3000/api/v1/stockRoute/statistics",
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${URL}/stockRoute/statistics`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
       if (res.status == 200) {
         setStat(res.data.data);
       }

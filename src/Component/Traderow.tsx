@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { Trash } from "lucide-react";
+const URL = "https://stock-bck.onrender.com/api/v1";
 
 const timeframe = {
   MIN1: "1 Min",
@@ -48,14 +49,11 @@ const Traderow: React.FC<{
     }
 
     try {
-      const res = await axios.get(
-        "http://localhost:3000/api/v1/stockRoute/get-allentry",
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      const res = await axios.get(`${URL}/stockRoute/get-allentry`, {
+        headers: {
+          Authorization: token,
+        },
+      });
 
       if (res.status === 200) {
         const tradeEntries = res.data.data.map((data) => ({
@@ -87,15 +85,12 @@ const Traderow: React.FC<{
   const handleDelete = async (id: number) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.delete(
-        "http://localhost:3000/api/v1/stockRoute/delete-stockEntry",
-        {
-          headers: {
-            Authorization: `${token}`,
-          },
-          data: { id: id },
-        }
-      );
+      const res = await axios.delete(`${URL}/stockRoute/delete-stockEntry`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+        data: { id: id },
+      });
       if (res.status === 200) {
         fetchEntries();
       } else {
