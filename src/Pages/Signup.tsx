@@ -29,7 +29,7 @@ const Signup = () => {
         localStorage.setItem("token", `Bearer ${res.data.token}`);
         navigate("/");
       }
-    } catch (err) {
+    } catch (err: any) {
       setCredError(err.response.data.msg);
     }
   };
@@ -67,7 +67,11 @@ const Signup = () => {
               type="password"
             />
             <div className="pt-4">
-              <Button onClick={submitForm} label={"Sign up"} />
+              <Button
+                // @ts-ignore
+                onClick={submitForm}
+                label={"Sign up"}
+              />
             </div>
             <BottomWarning
               label={"Already have an account?"}

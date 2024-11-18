@@ -19,7 +19,7 @@ const Login = () => {
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${URL}/userRoute/signin/`, {
+      const res = await axios.post(`${URL}/userRoute/signin`, {
         username: username,
         password: password,
       });
@@ -27,7 +27,7 @@ const Login = () => {
         localStorage.setItem("token", `Bearer ${res.data.token}`);
         navigate("/");
       }
-    } catch (err) {
+    } catch (err: any) {
       setCredError(err.response.data.msg);
     }
   };
@@ -57,6 +57,7 @@ const Login = () => {
               type="password"
             />
             <div className="pt-4">
+              {/* @ts-ignore */}
               <Button onClick={submitForm} label={"Sign In"} />
             </div>
             <BottomWarning

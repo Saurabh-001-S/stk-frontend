@@ -1,10 +1,25 @@
-import React, { Fragment, memo, useEffect, useRef } from "react";
+import React, {
+  Fragment,
+  memo,
+  SetStateAction,
+  useEffect,
+  useRef,
+} from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "./Image";
 import Form from "./Entryform";
 import { useNavigate } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
 
-const Modal: React.FC = memo(({ URL, show, modal, setModal }) => {
+interface ModalProps {
+  URL: string;
+  show: string;
+  modal: boolean;
+  // @ts-ignore
+  setModal: Dispatch<SetStateAction<boolean>>;
+}
+
+const Modal: React.FC<ModalProps> = memo(({ URL, show, modal, setModal }) => {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
   useEffect(() => {

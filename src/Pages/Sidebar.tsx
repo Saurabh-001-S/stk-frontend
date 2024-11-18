@@ -1,20 +1,62 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-const URL = "https://stock-bck.onrender.com/api/v1";
+
+interface Statistics {
+  totalPnl: number;
+  maxProfit: number;
+  winPercentage: number;
+  totalProfit: number;
+  brokerage: number;
+  winRatio: number;
+  minLoss: number;
+  lossPercentage: number;
+  totalLoss: number;
+}
+
+interface StatData {
+  FRX: Statistics;
+  IND: Statistics;
+}
 
 const Sidebar = () => {
   const cardH3: string = "font-sans text-gray-200 text-base";
   const cardP: string = "font-sans text-sm tracking-wide";
-  const [stat, setStat] = useState({ FRX: {}, IND: {} });
+  const [stat, setStat] = useState<StatData>({
+    FRX: {
+      totalPnl: 0,
+      maxProfit: 0,
+      winPercentage: 0,
+      totalProfit: 0,
+      brokerage: 0,
+      winRatio: 0,
+      minLoss: 0,
+      lossPercentage: 0,
+      totalLoss: 0,
+    },
+    IND: {
+      totalPnl: 0,
+      maxProfit: 0,
+      winPercentage: 0,
+      totalProfit: 0,
+      brokerage: 0,
+      winRatio: 0,
+      minLoss: 0,
+      lossPercentage: 0,
+      totalLoss: 0,
+    },
+  });
 
   const getStatistics = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get(`${URL}/stockRoute/statistics`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const res = await axios.get(
+        "http://localhost:3000/api/v1/stockRoute/statistics",
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
       if (res.status == 200) {
         setStat(res.data.data);
       }
@@ -45,41 +87,41 @@ const Sidebar = () => {
             <h3 className={`${cardH3} pb-2`}>IND</h3>
             <div className="flex flex-row justify-between">
               <div className="flex flex-col justify-between">
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Total PNL</h3>
                   <p className={`${cardP} text-white font`}>
                     {stat.IND.totalPnl}
                   </p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Max Prf.</h3>
                   <p className={`${cardP} text-green-500`}>
                     {stat.IND.maxProfit}
                   </p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Win %</h3>
                   <p className={`${cardP} text-green-500`}>
                     {stat.IND.winPercentage} %
                   </p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Total Prf</h3>
                   <p className={`${cardP} text-green-500`}>
                     {stat.IND.totalProfit}
                   </p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Brokerage</h3>
                   <p className={`${cardP} text-white`}>{stat.IND.brokerage}</p>
                 </div>
               </div>
               <div className="flex flex-col justify-between">
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Win Ratio</h3>
                   <p className={`${cardP} text-white`}>{stat.IND.winRatio}</p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Max Loss</h3>
                   <p className={`${cardP} text-red-500`}>{stat.IND.minLoss}</p>
                 </div>
@@ -102,51 +144,51 @@ const Sidebar = () => {
             <h3 className={`${cardH3} pb-2`}>FOREX</h3>
             <div className="flex flex-row justify-between">
               <div className="flex flex-col justify-between">
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Total PNL</h3>
                   <p className={`${cardP} text-white font`}>
                     {stat.FRX.totalPnl}
                   </p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Max Prf.</h3>
                   <p className={`${cardP} text-green-500`}>
                     {stat.FRX.maxProfit}
                   </p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Win %</h3>
                   <p className={`${cardP} text-green-500`}>
                     {stat.FRX.winPercentage} %
                   </p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Total Prf</h3>
                   <p className={`${cardP} text-green-500`}>
                     {stat.FRX.totalProfit}
                   </p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Brokerage</h3>
                   <p className={`${cardP} text-white`}>{stat.FRX.brokerage}</p>
                 </div>
               </div>
               <div className="flex flex-col justify-between">
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Win Ratio</h3>
                   <p className={`${cardP} text-white`}>{stat.FRX.winRatio}</p>
                 </div>
-                <div className="pb-2">
+                <div className="pb-1">
                   <h3 className={cardH3}>Max Loss</h3>
                   <p className={`${cardP} text-red-500`}>{stat.FRX.minLoss}</p>
                 </div>
-                <div>
+                <div className="pb-1">
                   <h3 className={cardH3}>Loss %</h3>
                   <p className={`${cardP} text-red-500`}>
                     {stat.FRX.lossPercentage} %
                   </p>
                 </div>
-                <div>
+                <div className="pb-1">
                   <h3 className={cardH3}>Total Loss</h3>
                   <p className={`${cardP} text-red-500`}>
                     {stat.FRX.totalLoss}

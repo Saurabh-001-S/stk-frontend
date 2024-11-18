@@ -21,8 +21,9 @@ const Traderow: React.FC<{
   };
 }> = forwardRef(({ filterQuery }, ref) => {
   const [trade, setTrade] = useState([]);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState<boolean>(false);
   const [show, setShow] = useState("Img");
+  // @ts-ignore
   const [img, setImg] = useState("");
 
   const navigate = useNavigate();
@@ -35,28 +36,24 @@ const Traderow: React.FC<{
     navigate(`/edit-entry/${id}`);
   };
 
-  const handleView = (url: string) => {
-    setImg(url);
-    setModal(true);
-    setShow("Img");
-  };
-
   const fetchEntries = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       console.error("No token found in localStorage.");
       return;
     }
-
+    // /api/1v / stockRoute;
     try {
       const res = await axios.get(`${URL}/stockRoute/get-allentry`, {
+        // const res = await axios.get(
+        //   `http://localhost:3000/api/v1/stockRoute/get-allentry`,
         headers: {
           Authorization: token,
         },
       });
 
       if (res.status === 200) {
-        const tradeEntries = res.data.data.map((data) => ({
+        const tradeEntries = res.data.data.map((data: any) => ({
           id: data.id,
           contract: data.contract,
           date: data.date,
@@ -85,12 +82,15 @@ const Traderow: React.FC<{
   const handleDelete = async (id: number) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.delete(`${URL}/stockRoute/delete-stockEntry`, {
-        headers: {
-          Authorization: `${token}`,
-        },
-        data: { id: id },
-      });
+      const res = await axios.delete(
+        "http://localhost:3000/api/v1/stockRoute/delete-stockEntry",
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+          data: { id: id },
+        }
+      );
       if (res.status === 200) {
         fetchEntries();
       } else {
@@ -102,7 +102,7 @@ const Traderow: React.FC<{
   };
 
   // Apply filters based on filterQuery prop
-  const filteredTrade = trade.filter((item) => {
+  const filteredTrade = trade.filter((item: any) => {
     if (filterQuery.winlossdraw && filterQuery.winlossdraw !== "Select") {
       if (item.winlossdraw !== filterQuery.winlossdraw) {
         return false;
@@ -135,7 +135,13 @@ const Traderow: React.FC<{
 
   return (
     <>
-      <Modal URL={img} show={show} modal={modal} setModal={setModal} />
+      <Modal
+        URL={img}
+        show={show}
+        modal={modal}
+        // @ts-ignore
+        setModal={setModal}
+      />
       <tbody>
         {filteredTrade.length === 0 ? (
           <tr>
@@ -144,7 +150,7 @@ const Traderow: React.FC<{
             </td>
           </tr>
         ) : (
-          filteredTrade.map((row, index) => (
+          filteredTrade.map((row: any, index) => (
             <tr key={row.id}>
               <td className={`${rowClass} text-white`}>{index + 1}</td>
               <td className={`${rowClass} text-white`}>{row.contract}</td>
@@ -152,6 +158,7 @@ const Traderow: React.FC<{
                 {row.date.slice(0, 10)}
               </td>
               <td className={`${rowClass} text-white`}>
+                {/* @ts-ignore */}
                 {timeframe[row.entryTimeFrame]}
               </td>
               <td className={`${rowClass} description text-white`}>
@@ -180,14 +187,14 @@ const Traderow: React.FC<{
                 </td>
               )}
               <td className={`${rowClass} text-white`}>{row.region}</td>
-              <td className={`${rowClass} text-center text-white`}>
+              {/* <td className={`${rowClass} text-center text-white`}>
                 <button
                   className="text-white bg-blue-600 px-2 py-1 rounded-md"
                   onClick={() => handleView(row.image)}
                 >
                   View
                 </button>
-              </td>
+              </td> */}
               <td className={`text-white ${rowClass}`}>
                 <button
                   className="text-white bg-blue-600 px-2 py-1 rounded-md"

@@ -1,4 +1,11 @@
-export function Button({ label, onClick }) {
+import React from "react";
+
+interface ButtonProps {
+  label: string;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
   return (
     <button
       onClick={onClick}
@@ -8,4 +15,5 @@ export function Button({ label, onClick }) {
       {label}
     </button>
   );
-}
+};
+export default Button;

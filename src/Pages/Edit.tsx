@@ -6,6 +6,7 @@ const Edit: React.FC = () => {
   return (
     <div>
       <Navbar />
+      {/* @ts-ignore */}
       <Entryform />
     </div>
   );

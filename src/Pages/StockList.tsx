@@ -46,7 +46,7 @@ const StockList: React.FC = memo(() => {
       endDate: "",
     });
   };
-  const resetData = useRef();
+  const resetData: any = useRef();
   const handleReset = () => {
     if (resetData.current) {
       resetData.current.fetchEntries();
@@ -119,9 +119,6 @@ const StockList: React.FC = memo(() => {
               </th>
               <th scope="col" className={`${thClass} w-12`}>
                 Region
-              </th>
-              <th scope="col" className={`${thClass} w-16 text-center`}>
-                IMG
               </th>
               <th scope="col" className={`${thClass} w-16`}>
                 <button type="button" onClick={handleReset}>
@@ -213,6 +210,7 @@ const StockList: React.FC = memo(() => {
                           id="startDate"
                           name="startDate"
                           value={filters.startDate}
+                          // @ts-ignore
                           onChange={handleChange}
                           className="block flex-1 border-2 bg-transparent py-1.5 pl-1 border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
@@ -227,6 +225,7 @@ const StockList: React.FC = memo(() => {
                           id="endDate"
                           name="endDate"
                           value={filters.endDate}
+                          // @ts-ignore
                           onChange={handleChange}
                           className="block flex-1 border-2 bg-transparent py-1.5 pl-1 border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                         />
@@ -237,7 +236,11 @@ const StockList: React.FC = memo(() => {
               </th>
             </tr>
           </thead>
-          <Traderow filterQuery={filters} ref={resetData} />
+          <Traderow
+            filterQuery={filters}
+            // @ts-ignore
+            ref={resetData}
+          />
         </table>
       </div>
     </div>

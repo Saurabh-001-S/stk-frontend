@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+// @ts-ignore
 import CanvasJSReact from "@canvasjs/react-charts";
-const URL = "https://stock-bck.onrender.com/api/v1";
 
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+const CanvasJSChart: any = CanvasJSReact.CanvasJSChart;
+const URL = "https://stock-bck.onrender.com/api/v1";
 
 const Graph = () => {
   const [trade, setTrade] = useState([]);
@@ -23,7 +24,7 @@ const Graph = () => {
       });
 
       if (res.status === 200) {
-        const tradeEntries = res.data.data.map((data) => ({
+        const tradeEntries = res.data.data.map((data: any) => ({
           id: data.id,
           contract: data.contract,
           date: new Date(data.date), // Ensure date is correctly parsed
@@ -51,13 +52,13 @@ const Graph = () => {
   }, []);
 
   // Filter data based on region
-  const indianData = trade.filter((entry) => entry.region === "IND");
-  const forexData = trade.filter((entry) => entry.region === "FOREX");
+  const indianData = trade.filter((entry: any) => entry.region === "IND");
+  const forexData = trade.filter((entry: any) => entry.region === "FOREX");
 
   // Sort data points by date and ensure unique entries
-  const sortData = (data) => {
+  const sortData = (data: any) => {
     return data
-      .map((entry) => {
+      .map((entry: any) => {
         const netPnl =
           entry.winlossdraw === "WIN"
             ? entry.pnl - entry.brokerage
@@ -68,16 +69,20 @@ const Graph = () => {
           color: netPnl < 0 ? "red" : "green",
         };
       })
-      .sort((a, b) => a.x - b.x);
+      .sort((a: any, b: any) => a.x - b.x);
   };
 
   const indianDataPoints = sortData(indianData);
   const forexDataPoints = sortData(forexData);
 
-  const extendDateRange = (dataPoints) => {
+  const extendDateRange = (dataPoints: any) => {
     if (dataPoints.length === 0) return [new Date(), new Date()];
-    const minDate = new Date(Math.min(...dataPoints.map((entry) => entry.x)));
-    const maxDate = new Date(Math.max(...dataPoints.map((entry) => entry.x)));
+    const minDate = new Date(
+      Math.min(...dataPoints.map((entry: any) => entry.x))
+    );
+    const maxDate = new Date(
+      Math.max(...dataPoints.map((entry: any) => entry.x))
+    );
     minDate.setDate(minDate.getDate() - 1); // Add one day before the first entry
     maxDate.setDate(maxDate.getDate() + 1); // Add one day after the last entry
     return [minDate, maxDate];
@@ -90,7 +95,7 @@ const Graph = () => {
     animationEnabled: true,
     axisX: {
       valueFormatString: "DD/MM",
-      labelFormatter: (e) => {
+      labelFormatter: (e: any) => {
         const date = new Date(e.value);
         return `${date.getDate()}/${date.getMonth() + 1}`;
       },

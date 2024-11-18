@@ -11,12 +11,12 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route exact path="/signin" element={<Login />} />
-          <Route exact path="/signup" element={<Signup />} />
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/edit-entry/:id" element={<Home />} />
-          <Route exact path="/add-entry" element={<Edit />} />
-          <Route exact path="/trade-graph" element={<TradeGraph />} />
+          <Route path="/signin" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/edit-entry/:id" element={<Home />} />
+          <Route path="/add-entry" element={<Edit />} />
+          <Route path="/trade-graph" element={<TradeGraph />} />
         </Routes>
       </Router>
     </>

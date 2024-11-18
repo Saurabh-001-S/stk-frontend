@@ -1,4 +1,3 @@
-import React from "react";
 import Graph from "../Component/Graph";
 import Sidebar from "./Sidebar";
 import Navbar from "../Component/Navbar";
